@@ -36,6 +36,10 @@ UserSchema.methods.encryptPassword = function (password) {
   return bcryptjs.hashSync(password, bcryptjs.genSaltSync());
 };
 
+UserSchema.methods.comparePassword = function (password) {
+    return bcryptjs.compareSync(password, this.password);
+};
+
 UserSchema.methods.toJSON = function () { 
   const { __v, password, _id, ...user } = this.toObject();
   user.uid = _id;
