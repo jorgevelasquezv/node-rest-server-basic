@@ -1,5 +1,4 @@
 const { request, response } = require('express');
-const bcryptjs = require('bcryptjs');
 
 const User = require('../models/user');
 
@@ -42,7 +41,7 @@ const usersPut = async (req = request, res = response) => {
         user.password = user.encryptPassword(password);
     }
 
-    const userUpdate = await User.findByIdAndUpdate(id, rest);
+    const userUpdate = await User.findByIdAndUpdate(id, rest, {new: true});
 
     res.json({ msg: 'Hello World', user: userUpdate });
 };

@@ -1,49 +1,60 @@
-const express = require("express");
-const cors = require("cors");
-const { dbConnection } = require("../database/config.db");
+const express = require('express');
+const cors = require('cors');
+const { dbConnection } = require('../database/config.db');
 
 class Server {
-  constructor() {
-    this.app = express();
-    this.port = process.env.PORT;
-    this.usersPath = "/api/users";
-    this.authPath = "/api/auth";
+    constructor() {
+        this.app = express();
+        this.port = process.env.PORT;
+        this.paths = {
+            auth: '/api/auth',
+            categories: '/api/categories',
+            products: '/api/products',
+            search: '/api/search',
+            users: '/api/users',
+        };
 
-    // Conectar a base de datos
-    this.connectDB();
+        // Conectar a base de datos
+        this.connectDB();
 
-    //Middlewares
-    this.middleware();
+        //Middlewares
+        this.middleware();
 
-    //Rutas de mi aplicación
-    this.routes();
-  }
+        //Rutas de mi aplicación
+        this.routes();
+    }
 
-  async connectDB() {
-    await dbConnection();
-  }
+    async connectDB() {
+        await dbConnection();
+    }
 
-  middleware() {
-    // Cors
-    this.app.use(cors());
+    middleware() {
+        // Cors
+        this.app.use(cors());
 
-    // Lectura y parseo del body
-    this.app.use(express.json());
+        // Lectura y parseo del body
+        this.app.use(express.json());
 
-    // Directorio Publico
-    this.app.use(express.static("public"));
-  }
+        // Directorio Publico
+        this.app.use(express.static('public'));
+    }
 
-  routes() {
-    this.app.use(this.authPath, require("../routes/auth.routes"));
-    this.app.use(this.usersPath, require("../routes/user.routes"));
-  }
+    routes() {
+        this.app.use(this.paths.auth, require('../routes/auth.routes'));
+        this.app.use(
+            this.paths.categories,
+            require('../routes/categories.routes')
+        );
+        this.app.use(this.paths.products, require('../routes/products.routes'));
+        this.app.use(this.paths.search, require('../routes/search.routes'));
+        this.app.use(this.paths.users, require('../routes/user.routes'));
+    }
 
-  listen() {
-    this.app.listen(this.port, () => {
-      console.log(`Servidor escuchando en el puerto ${this.port}`);
-    });
-  }
+    listen() {
+        this.app.listen(this.port, () => {
+            console.log(`Servidor escuchando en el puerto ${this.port}`);
+        });
+    }
 }
 
 module.exports = Server;
