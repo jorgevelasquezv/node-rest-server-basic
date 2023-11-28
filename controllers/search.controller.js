@@ -135,10 +135,10 @@ const search = (req, res = response) => {
 };
 
 const searchProductsByCategory = async (req, res = response) => {
-    const { category } = req.params;
+    const { id } = req.params;
 
     const products = await Product.find({
-        category,
+        category: id,
         status: true,
     })
         .populate('category', 'name')
