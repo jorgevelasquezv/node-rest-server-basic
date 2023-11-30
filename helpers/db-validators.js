@@ -49,6 +49,17 @@ const productByNameExists = async (name = '') => {
     }
 };
 
+const validCollections = (
+    collection = '',
+    collections = []
+) => {
+    const collectionIncluded = collections.includes(collection);
+    if (!collectionIncluded) {
+        throw new Error(`Collection ${collection} is not allowed, ${collections}`);
+    }
+    return true;
+};
+
 module.exports = {
     categoryByNameExists,
     categoryExists,
@@ -57,4 +68,5 @@ module.exports = {
     productExists,
     productByNameExists,
     userExists,
+    validCollections,
 };

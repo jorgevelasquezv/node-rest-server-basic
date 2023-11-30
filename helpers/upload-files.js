@@ -3,8 +3,9 @@ const { v4: uuidv4 } = require('uuid');
 
 const extensions = ['png', 'jpg', 'jpeg', 'gif'];
 
-const uploadFile = ({ file }, validExtensions = extensions, folder = '') => {
+const uploadFile = (files, validExtensions = extensions, folder = '') => {
     return new Promise((resolve, reject) => {
+        const { file } = files;
         const { name } = file;
 
         const extension = name.slice(name.lastIndexOf('.') + 1);

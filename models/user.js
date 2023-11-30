@@ -15,7 +15,10 @@ const UserSchema = new Schema({
     type: String,
     required: [true, "The password is required."],
   },
-  img: { type: String },
+  img: {
+    type: String,
+    default: '',
+  },
   role: {
     type: String,
     required: true,
